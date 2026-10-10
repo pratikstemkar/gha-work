@@ -4,8 +4,8 @@
   "include": [
     "vite.config.*",
     "vitest.config.*",
-    "cypress.config.*",
     "playwright.config.*",
+    "cypress.config.*",
     "eslint.config.*"
   ],
   "compilerOptions": {

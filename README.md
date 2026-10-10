@@ -104,11 +104,36 @@ Frontend (Vitest: stores, API client, router guard, and components):
 
 ```bash
 cd frontend
-npm run test:unit        # single run
-npm run test:unit:watch  # watch mode
-npm run lint             # ESLint (auto-fix)
-npm run lint:ci          # ESLint (no fix, for CI)
+npm run test:unit            # single run
+npm run test:unit:watch      # watch mode
+npm run test:unit:coverage   # with coverage (enforces 50% thresholds)
+npm run lint                 # ESLint (auto-fix)
+npm run lint:ci              # ESLint (no fix, for CI)
 ```
+
+End-to-end (Playwright). The first run needs the browsers once:
+
+```bash
+cd frontend
+npx playwright install --with-deps chromium
+npm run test:e2e
+```
+
+Playwright starts the API automatically (which also starts Vite via the SPA proxy). If the app is already running, set `PLAYWRIGHT_BASE_URL=http://localhost:5173` to reuse it.
+
+## Continuous integration
+
+Workflows live in `.github/workflows`:
+
+| Workflow | Triggers | What it does |
+| -------- | -------- | ------------ |
+| `ci.yml` | push, PR | Calls the three reusable workflows below |
+| `backend-ci.yml` | reusable | .NET restore/build, xUnit tests with coverage, coverage PR comment |
+| `frontend-ci.yml` | reusable | npm ci, ESLint, Vitest with coverage, build, coverage PR comment |
+| `e2e.yml` | reusable | Installs Playwright + Chromium and runs the E2E suite |
+| `security.yml` | push/PR to main, weekly | CodeQL (C# + JS/TS), dependency review, NuGet/npm audit |
+
+Dependency updates are proposed automatically by Dependabot (`.github/dependabot.yml`).
 
 ## Project structure
 

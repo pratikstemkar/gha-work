@@ -13,69 +13,21 @@ concurrency:
 
 jobs:
   backend:
-    name: Backend (.NET)
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v6
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            nuget-${{ runner.os }}-
-
-      - name: Restore
-        run: dotnet restore App.slnx
-
-      - name: Build
-        run: dotnet build App.slnx --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test App.slnx --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: backend-test-results
-          path: '**/TestResults/*.trx'
-          if-no-files-found: ignore
+    name: Backend
+    uses: ./.github/workflows/backend-ci.yml
+    permissions:
+      contents: read
+      pull-requests: write
 
   frontend:
-    name: Frontend (Vue)
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+    name: Frontend
+    uses: ./.github/workflows/frontend-ci.yml
+    permissions:
+      contents: read
+      pull-requests: write
 
-      - name: Set up Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: '24'
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint:ci
-
-      - name: Unit tests
-        run: npm run test:unit
-
-      - name: Build
-        run: npm run build
+  e2e:
+    name: E2E
+    uses: ./.github/workflows/e2e.yml
+    permissions:
+      contents: read

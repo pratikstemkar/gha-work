@@ -15,5 +15,18 @@ export default defineConfig({
     environment: 'jsdom',
     root: fileURLToPath(new URL('./', import.meta.url)),
     include: ['src/**/__tests__/*.spec.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'cobertura'],
+      reportsDirectory: './coverage',
+      include: ['src/**/*.{ts,vue}'],
+      exclude: ['src/**/__tests__/**', 'src/types.ts', 'src/main.ts'],
+      thresholds: {
+        statements: 50,
+        branches: 50,
+        functions: 50,
+        lines: 50,
+      },
+    },
   },
 })

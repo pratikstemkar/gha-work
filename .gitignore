@@ -8,6 +8,12 @@ node_modules/
 dist/
 *.local
 
+# Test / coverage output
+coverage/
+TestResults/
+playwright-report/
+test-results/
+
 # Logs and editor files
 *.log
 .DS_Store

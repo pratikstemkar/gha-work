@@ -1,0 +1,48 @@
+@host = http://localhost:5201
+
+### Health check
+GET {{host}}/api/health
+
+### Login (demo user)
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "demo",
+  "password": "demo123"
+}
+
+### Current user (uses the token from the login response)
+GET {{host}}/api/auth/me
+Authorization: Bearer {{login.response.body.token}}
+
+### Dashboard
+GET {{host}}/api/dashboard
+Authorization: Bearer {{login.response.body.token}}
+
+### List items
+GET {{host}}/api/items
+Authorization: Bearer {{login.response.body.token}}
+
+### Add an item
+POST {{host}}/api/items
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "title": "A new item"
+}
+
+### Toggle item done
+PATCH {{host}}/api/items/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "done": true
+}
+
+### Delete an item
+DELETE {{host}}/api/items/1
+Authorization: Bearer {{login.response.body.token}}

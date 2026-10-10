@@ -1,0 +1,14 @@
+# .NET
+bin/
+obj/
+*.user
+
+# Node / Vite
+node_modules/
+dist/
+*.local
+
+# Logs and editor files
+*.log
+.DS_Store
+.idea/

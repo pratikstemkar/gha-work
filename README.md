@@ -1,5 +1,7 @@
 # App
 
+[![CI](https://github.com/pratikstemkar/gha-work/actions/workflows/ci.yml/badge.svg)](https://github.com/pratikstemkar/gha-work/actions/workflows/ci.yml)
+
 A full-stack starter with an ASP.NET Core 10 REST API and a Vue 3 (Vite + TypeScript + Tailwind) frontend. There is no database yet: users and items live in memory and reset when the API restarts.
 
 ## Requirements

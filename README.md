@@ -166,3 +166,5 @@ Test files live in `__tests__` folders next to the code they cover.
 - Sessions are kept in `sessionStorage`, so closing the tab logs you out.
 - To add a real database, replace `UserStore` and `ItemStore` with EF Core-backed implementations and keep the endpoint signatures.
 - To ship a single deployable app, build the frontend (`npm run build`) and serve `frontend/dist` as static files from the API.
+
+<!-- temporary: verify coverage PR comment, will be discarded -->
